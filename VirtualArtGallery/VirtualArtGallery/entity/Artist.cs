@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VirtualArtGallery.entity
+{
+    public class Artist
+    {
+        // Properties
+        public int ArtistID { get; set; }  // Primary Key
+        public string Name { get; set; }
+        public string Biography { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string Nationality { get; set; }
+        public string Website { get; set; }
+        public string ContactInformation { get; set; }
+
+        // Default Constructors
+        public Artist() { }
+
+        //Parameterized constructor
+        public Artist(int artistID, string name, string biography, DateTime birthDate, string nationality, string website, string contactInformation)
+        {
+            this.ArtistID = artistID;
+            this.Name = name;
+            this.Biography = biography;
+            this.BirthDate = birthDate;
+            this.Nationality = nationality;
+            this.Website = website;
+            this.ContactInformation = contactInformation;
+        }
+
+        public override string ToString()
+        {
+            return $"ArtistID \t:\t{ArtistID}\nName \t\t:\t{Name}\nBiography \t:\t{Biography}\nBirthDate \t:\t{BirthDate}\nNationality \t\t:\t{Nationality}\nWebsite \t:\t{Website}\nContact \t:\t{ContactInformation}";
+        }
+    }
+}
+

@@ -1,0 +1,7 @@
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\Debug\VirtualArtGallery.exe.config
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\Debug\VirtualArtGallery.exe
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\Debug\VirtualArtGallery.pdb
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\Debug\VirtualArtGallery.csproj.AssemblyReference.cache
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\Debug\VirtualArtGallery.csproj.CoreCompileInputs.cache
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\Debug\VirtualArtGallery.exe
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\Debug\VirtualArtGallery.pdb
