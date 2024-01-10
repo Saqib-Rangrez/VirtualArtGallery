@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace VirtualArtGallery.entity
 
 
         public Users() { }
-        public Users(int userId, string userName, string password, string email, string firstName, string lastName, DateTime dateOfBirth, string profilePicture, List<FavoriteArtwork> favoriteArtworks)
+        public Users(int userId, string userName, string password, string email, string firstName, string lastName, DateTime dateOfBirth, string profilePicture,[Optional] List<FavoriteArtwork> favoriteArtworks)
         {
             this.UserId = userId;
             this.UserName = userName;

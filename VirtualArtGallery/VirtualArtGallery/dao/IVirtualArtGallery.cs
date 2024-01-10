@@ -15,8 +15,15 @@ namespace VirtualArtGallery.dao
         Boolean RemoveArtwork(int artworkID);
         Artwork GetArtworkByID(int artworkID);
         List<Artwork> SearchArtworks(String keyword);
+        List<Artwork> BrowseArtwork();
 
-
+        //Gallery Management
+        List<Gallery> ViewGalleries();
+        Boolean AddGallery(Gallery gallery);
+        Boolean UpdateGallery(Gallery gallery);
+        Boolean RemoveGallery(int galleryID);
+        Gallery GetGalleryById(int galleryID);
+        List<Gallery> SearchGallery(String keyword);
 
         //User Favorites
         Boolean AddArtworkToFavorite(int userId, int artworkId);

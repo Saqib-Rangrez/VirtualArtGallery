@@ -5,22 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VirtualArtGallery.entity;
+using VirtualArtGallery.Exceptions;
 using VirtualArtGallery.util;
 
 namespace VirtualArtGallery.services
 {
     public class VirtualArtGalleryServices : IVirtualArtGalleryServices
     {
-        SqlCommand cmd = null;
-
-        public VirtualArtGalleryServices()
-        {
-            cmd = new SqlCommand();
-        }
-
-
-
-        public bool Login(string username, string password)
+        public Users Login(string username, string password)
         {
             try
             {
@@ -28,7 +20,6 @@ namespace VirtualArtGallery.services
                 {
                     connection.Open();
 
-                    // Query the database to find a user with the given username
                     string query = "SELECT * FROM Users WHERE Username = @Username";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -38,61 +29,99 @@ namespace VirtualArtGallery.services
                         {
                             if (reader.Read())
                             {
-                                // User with the given username found
+                                Users user = new Users()
+                                {
+                                    FirstName = reader["FirstName"].ToString(),
+                                    LastName = reader["LastName"].ToString(),
+                                    UserName = reader["Username"].ToString(),
+                                    Email = reader["Email"].ToString(),
+                                    Password = reader["Password"].ToString(),
+                                    UserId = Convert.ToInt32(reader["UserID"]),
+                                    ProfilePicture = reader["ProfilePicture"].ToString(),
+                                    DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"])
+                                };                                
+                                
+                                //Authentication
                                 string storedPassword = reader["Password"].ToString();
 
-                                // Check if the retrieved password matches the provided password
                                 if (storedPassword == password)
                                 {
-                                    // Login successful
-                                    return true;
+                                    return user;
+                                }else
+                                {
+                                    throw new UserNotFoundException($"Password mismatch, Please enter correct password");
                                 }
+                            }
+                            else
+                            {
+                                throw new UserNotFoundException($"User with username : {username} does not exist, Please register first");
                             }
                         }
                     }
                 }
-            }catch(Exception ex)
+            }catch(UserNotFoundException ex)
             {
-                Console.WriteLine($"An error occurred during database operation at Login: {ex.Message}");
-                throw new Exception("User not found!");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("╔═════════════════════════════════════════════════════════════╗");
+                Console.WriteLine($"             {ex.Message}  ");
+                Console.WriteLine("╚═════════════════════════════════════════════════════════════╝");
+                Console.ResetColor();
+                return null;
             }
-
-            // Login failed
-            return false;
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine($"   An error occurred during database operation at Login: {ex.Message}  ");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
+                Console.ResetColor();
+                return null;
+            }
         }
 
         public bool Register()
         {
             Users newUser = GetUsersDetails();
-           
-            try
+            if(newUser != null)
             {
-                using (SqlConnection connection = DBConnUtil.GetConnection())
+                try
                 {
-                    connection.Open();
-                    string insertQuery = "INSERT INTO Users (Username, Password, Email, FirstName, LastName, DateOfBirth, ProfilePicture) " +
-                                         "VALUES (@Username, @Password, @Email, @FirstName, @LastName, @DateOfBirth, @ProfilePicture)";
-                    using (SqlCommand command = new SqlCommand(insertQuery, connection))
+
+                    using (SqlConnection connection = DBConnUtil.GetConnection())
                     {
-                        command.Parameters.AddWithValue("@Username", newUser.UserName);
-                        command.Parameters.AddWithValue("@Password", newUser.Password);
-                        command.Parameters.AddWithValue("@Email", newUser.Email);
-                        command.Parameters.AddWithValue("@FirstName", newUser.FirstName);
-                        command.Parameters.AddWithValue("@LastName", newUser.LastName);
-                        command.Parameters.AddWithValue("@DateOfBirth", newUser.DateOfBirth);
-                        command.Parameters.AddWithValue("@ProfilePicture", newUser.ProfilePicture);
+                        connection.Open();
+                        string insertQuery = "INSERT INTO Users (Username, Password, Email, FirstName, LastName, DateOfBirth, ProfilePicture) " +
+                                             "VALUES (@Username, @Password, @Email, @FirstName, @LastName, @DateOfBirth, @ProfilePicture)";
+                        using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@Username", newUser.UserName);
+                            command.Parameters.AddWithValue("@Password", newUser.Password);
+                            command.Parameters.AddWithValue("@Email", newUser.Email);
+                            command.Parameters.AddWithValue("@FirstName", newUser.FirstName);
+                            command.Parameters.AddWithValue("@LastName", newUser.LastName);
+                            command.Parameters.AddWithValue("@DateOfBirth", newUser.DateOfBirth);
+                            command.Parameters.AddWithValue("@ProfilePicture", newUser.ProfilePicture);
 
-                        int rowsAffected = command.ExecuteNonQuery();
+                            int rowsAffected = command.ExecuteNonQuery();
 
-                        return rowsAffected > 0;
+                            return rowsAffected > 0;
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
+                    Console.WriteLine($"   An error occurred during database operation : {ex.Message}  ");
+                    Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
+                    Console.ResetColor();
+                    return false;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"An error occurred during database operation: {ex.Message}");
                 return false;
-            }
+            }            
         }
 
         public Users GetUsersDetails()
@@ -100,31 +129,54 @@ namespace VirtualArtGallery.services
             Users newUser;
             try
             {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine("User Registration:");
+                Console.ResetColor();
 
-                // Get user details
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("Username: ");
+                Console.ResetColor();
                 string username = Console.ReadLine();
 
+                //Validation
+                bool isUsernameAvailable = CheckUsername(username);
+                if (!isUsernameAvailable)
+                {
+                    throw new Exception("Username already exist, please enter unique username");
+                }
+
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("Password: ");
+                Console.ResetColor();
                 string password = Console.ReadLine();
 
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("Email: ");
+                Console.ResetColor();
                 string email = Console.ReadLine();
 
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("First Name: ");
+                Console.ResetColor();
                 string firstName = Console.ReadLine();
 
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("Last Name: ");
+                Console.ResetColor();
                 string lastName = Console.ReadLine();
 
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("Date of Birth (yyyy-MM-dd): ");
+                Console.ResetColor();
                 DateTime dateOfBirth;
                 while (!DateTime.TryParse(Console.ReadLine(), out dateOfBirth))
                 {
                     Console.WriteLine("Invalid date format. Please enter again (yyyy-MM-dd): ");
                 }
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("Profile Picture: ");
+                Console.ResetColor();
                 string profilePicture = Console.ReadLine();
 
 
@@ -142,18 +194,51 @@ namespace VirtualArtGallery.services
             }
             catch (FormatException ex)
             {
-                Console.WriteLine($"Invalid input format: {ex.Message}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine($"    Invalid input format : {ex.Message}  ");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
+                Console.ResetColor();
                 return null;
             }
             catch (Exception ex)
             {
-
-                Console.WriteLine($"An error occurred during registration: {ex.Message}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine($"    {ex.Message}  ");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
+                Console.ResetColor();
                 return null;
             }
 
         }
 
+        public bool CheckUsername (string username)
+        {
+            try
+            {
+                using(SqlConnection connection = DBConnUtil.GetConnection())
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = "SELECT * FROM Users WHERE Username = @Username";
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    connection.Open();
+                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }catch(Exception ex) { 
+                Console.WriteLine (ex.Message);
+                return false;
+            }
+        }
         //public bool Register()
         //{
         //    Users newUser;
@@ -243,96 +328,6 @@ namespace VirtualArtGallery.services
         //    }
         //}
 
-        public List<Artwork> BrowseArtwork()
-        {
-            List<Artwork> artworks = new List<Artwork>();
-            
-            try
-            {               
-                using (SqlConnection connection = DBConnUtil.GetConnection())
-                {
-                    connection.Open();
-                    // Query to retrieve artworks
-                    string query = "SELECT * FROM Artwork";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                // Create Artwork object from database record
-                                Artwork artwork = new Artwork
-                                {
-                                    ArtworkID = Convert.ToInt32(reader["ArtworkID"]),
-                                    Title = reader["Title"].ToString(),
-                                    Description = reader["Description"].ToString(),
-                                    CreationDate = Convert.ToDateTime(reader["CreationDate"]),
-                                    Medium = reader["Medium"].ToString(),
-                                    ImageURL = reader["ImageURL"].ToString(),
-                                    ArtistID = Convert.ToInt32(reader["ArtistID"])
-                                    // Add other properties as needed
-                                };
-
-                                artworks.Add(artwork);
-                            }
-                        }
-                    }
-                }
-
-                return artworks;
-            }
-            catch (Exception ex)
-            {
-                // Handle the exception (e.g., log the error)
-                Console.WriteLine($"An error occurred while browsing artwork: {ex.Message}");
-                return null;
-            }
-        }
-        /*public List<Artwork> SearchArtwork(string keyword)
-        {
-            throw new NotImplementedException();
-        }*/
-
-
-        public List<Gallery> ViewGalleries()
-        {
-            
-            List<Gallery> list = new List<Gallery>();
-            try
-            {
-                using (SqlConnection connection = DBConnUtil.GetConnection())
-                {
-                    connection.Open();
-                    string query = "SELECT * FROM Gallery";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Gallery temp = new Gallery
-                                {
-                                    GalleryId = Convert.ToInt32(reader["galleryId"]),
-                                    Name = reader["name"].ToString(),
-                                    Description = reader["description"].ToString(),
-                                    Location = reader["location"].ToString(),
-                                    CuratorID = Convert.ToInt32(reader["curatorId"]),
-                                    OpeningHours = reader["openingHours"].ToString()
-                                };
-                                list.Add(temp);
-                            }
-                        }
-                    }
-                }
-                return list;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while browsing artwork: {ex.Message}");
-                return null;
-            }
-        }
-
         public Users GetUserProfile(string username)
         {     
             try
@@ -342,19 +337,16 @@ namespace VirtualArtGallery.services
                 {
                     connection.Open();
 
-                    // Query to retrieve user profile based on username
                     string query = "SELECT * FROM Users WHERE Username = @Username";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        // Add parameters
                         command.Parameters.AddWithValue("@Username", username);
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                // Create Users object from database record
                                 userProfile = new Users
                                 {
                                     UserId = Convert.ToInt32(reader["UserID"]),
@@ -364,7 +356,6 @@ namespace VirtualArtGallery.services
                                     FirstName = reader["FirstName"].ToString(),
                                     LastName = reader["LastName"].ToString(),
                                     DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
-                                    // Add other properties as needed
                                 };
                             }
                         }
@@ -374,23 +365,31 @@ namespace VirtualArtGallery.services
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log the error)
-                Console.WriteLine($"An error occurred while getting user profile: {ex.Message}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine($"    An error occurred while getting user profile : {ex.Message}  ");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
+                Console.ResetColor();
                 return null;
             }
         }
-
 
         public bool Logout()
         {
             try
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Logging out...");
+                Console.ResetColor();
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred during logout: {ex.Message}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
+                Console.WriteLine($"    An error occurred during logout : {ex.Message}  ");
+                Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
+                Console.ResetColor();
                 return false;
             }
         }

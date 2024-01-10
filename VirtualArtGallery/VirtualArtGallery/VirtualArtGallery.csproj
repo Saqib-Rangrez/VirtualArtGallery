@@ -52,17 +52,19 @@
     <Compile Include="entity\FavoriteArtworks.cs" />
     <Compile Include="entity\Gallery.cs" />
     <Compile Include="entity\Users.cs" />
+    <Compile Include="exception\ArtWorkNotFoundException.cs" />
+    <Compile Include="exception\GalleryNotFoundException.cs" />
+    <Compile Include="exception\UserNotFoundException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="services\IVirtualArtGalleryServices.cs" />
     <Compile Include="services\VirtualArtGalleryServices.cs" />
     <Compile Include="util\DBConnUtil.cs" />
+    <Compile Include="util\DBPropUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="exception\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

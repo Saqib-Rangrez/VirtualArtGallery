@@ -18,7 +18,7 @@ namespace VirtualArtGallery.util
             try
             {                
                 conn = new SqlConnection();
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["VirtualArtGallery"].ConnectionString;                
+                conn.ConnectionString = DBPropUtil.GetConnectionString();                
                 return conn;
             }catch (Exception e)
             {

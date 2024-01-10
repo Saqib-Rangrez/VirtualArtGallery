@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace VirtualArtGallery.entity
         public string Name { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
-        public int CuratorID { get; set; }    // Reference to ArtistID
+        public int CuratorID { get; set; }  
         public string OpeningHours { get; set; }
 
 
@@ -21,8 +22,8 @@ namespace VirtualArtGallery.entity
         public Gallery() { }
 
         //Parameterized Constructor
-        public Gallery(int galleryId, string name, string description,
-                        string location, int curatorID, string openingHours)
+        public Gallery( string name, string description,
+                        string location, int curatorID, string openingHours, [Optional] int galleryId)
         {
             this.GalleryId = galleryId;
             this.Name = name;
