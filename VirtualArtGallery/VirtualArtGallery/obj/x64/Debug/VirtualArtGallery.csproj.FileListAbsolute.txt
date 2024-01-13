@@ -1,0 +1,13 @@
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\x64\Debug\VirtualArtGallery.exe.config
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\x64\Debug\VirtualArtGallery.exe
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\x64\Debug\VirtualArtGallery.pdb
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\x64\Debug\VirtualArtGallery.csproj.AssemblyReference.cache
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\x64\Debug\VirtualArtGallery.csproj.CoreCompileInputs.cache
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\x64\Debug\VirtualArtGallery.exe
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\x64\Debug\VirtualArtGallery.pdb
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\x64\Debug\System.Data.SqlClient.dll
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\x64\Debug\System.Data.SqlClient.xml
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\obj\x64\Debug\VirtualArtGallery.csproj.CopyComplete
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\x64\Debug\System.Configuration.ConfigurationManager.dll
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\x64\Debug\System.Configuration.ConfigurationManager.xml
+C:\C#.Net\VirtualArtGallery\VirtualArtGallery\bin\x64\Debug\App.config
