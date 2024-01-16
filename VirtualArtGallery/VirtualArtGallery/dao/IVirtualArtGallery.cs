@@ -16,6 +16,7 @@ namespace VirtualArtGallery.dao
         Artwork GetArtworkByID(int artworkID);
         List<Artwork> SearchArtworks(String keyword);
         List<Artwork> BrowseArtwork();
+        List<Artist> GetAllArtist();
 
         //Gallery Management
         List<Gallery> ViewGalleries();

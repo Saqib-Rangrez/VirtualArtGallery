@@ -8,15 +8,11 @@ namespace VirtualArtGallery.entity
 {
     public class ArtworkGallery
     {
-        //Properties
         public int ArtworkID { get; set; }
         public int GalleryID { get; set; }
 
-
-        //Default constructor
         public ArtworkGallery() { }
 
-        //Parameterized constructor
         public ArtworkGallery(int artworkID, int galleryID)
         {
             this.ArtworkID = artworkID;

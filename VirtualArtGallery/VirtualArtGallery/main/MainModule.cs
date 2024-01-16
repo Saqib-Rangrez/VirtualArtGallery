@@ -160,21 +160,22 @@ namespace VirtualArtGallery.main
                 Console.WriteLine("3. Remove Artwork");
                 Console.WriteLine("4. Get Artwork By Id");
                 Console.WriteLine("5. Get User Favorite Artwork");
-                Console.WriteLine("6. Browse Artwork");
-                Console.WriteLine("7. View Galleries");
-                Console.WriteLine("8. Search Artwork");
-                Console.WriteLine("9. Add Artwork to Favorites");
-                Console.WriteLine("10. Remove Artwork from Favorites");
-                Console.WriteLine("11. Add Gallery");
-                Console.WriteLine("12. Update Gallery");
-                Console.WriteLine("13. Remove Gallery");
-                Console.WriteLine("14. Get Gallery By Id");
-                Console.WriteLine("15. Search Gallery");
+                Console.WriteLine("6. View All Artists");
+                Console.WriteLine("7. Browse Artwork");
+                Console.WriteLine("8. View Galleries");
+                Console.WriteLine("9. Search Artwork");
+                Console.WriteLine("10. Add Artwork to Favorites");
+                Console.WriteLine("11. Remove Artwork from Favorites");
+                Console.WriteLine("12. Add Gallery");
+                Console.WriteLine("13. Update Gallery");
+                Console.WriteLine("14. Remove Gallery");
+                Console.WriteLine("15. Get Gallery By Id");
+                Console.WriteLine("16. Search Gallery");
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine("16. View Your Profile");
+                Console.WriteLine("17. View Your Profile");
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("17. Logout");
+                Console.WriteLine("18. Logout");
                 Console.ResetColor();
                 Console.WriteLine();
                 Console.ResetColor();
@@ -361,7 +362,35 @@ namespace VirtualArtGallery.main
                         }
                         break;
                     case "6":
-
+                        List<Artist> artistkList = daoServices.GetAllArtist();
+                        if (artistkList != null)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine("╔═══════════════════════════════════════════════════════════════════════╗");
+                            Console.ResetColor();
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            Console.WriteLine("\t\t╔════════════════════════════════════════╗");
+                            Console.WriteLine("\t\t        All Available Artists            ");
+                            Console.WriteLine("\t\t╚════════════════════════════════════════╝");
+                            Console.ResetColor();
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine("-------------------------------------------------------------------------");
+                            Console.ResetColor();
+                            foreach (Artist artist in artistkList)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine(artist.ToString());
+                                Console.ResetColor();
+                                Console.ForegroundColor = ConsoleColor.Cyan;
+                                Console.WriteLine("-----------------------------------------------------------------------");
+                                Console.ResetColor();
+                            }
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine("\n╚════════════════════════════════════════════════════════════════════════╝");
+                            Console.ResetColor();
+                        }
+                        break;
+                    case "7":
                         List<Artwork> artworkList = daoServices.BrowseArtwork();
                         if (artworkList != null)
                         {
@@ -390,7 +419,7 @@ namespace VirtualArtGallery.main
                             Console.ResetColor();
                         }
                         break;
-                    case "7":
+                    case "8":
                         List<Gallery> galleryList = daoServices.ViewGalleries();
                         if (galleryList != null)
                         {
@@ -419,7 +448,7 @@ namespace VirtualArtGallery.main
                             Console.ResetColor();
                         }
                         break;
-                    case "8":
+                    case "9":
                         try
                         {
                             string keyword;
@@ -467,7 +496,7 @@ namespace VirtualArtGallery.main
                             Console.WriteLine();
                         }
                         break;
-                    case "9":
+                    case "10":
                         try
                         {
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -514,7 +543,7 @@ namespace VirtualArtGallery.main
                             Console.WriteLine();
                         }
                         break;
-                    case "10":
+                    case "11":
                         try
                         {
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -562,7 +591,7 @@ namespace VirtualArtGallery.main
                         }
 
                         break;
-                    case "11":
+                    case "12":
                         Gallery galleryToAdd = new Gallery();
                         galleryToAdd = daoServices.GalleryDetails();
                         Console.WriteLine();
@@ -584,7 +613,7 @@ namespace VirtualArtGallery.main
                             Console.ResetColor();
                         }
                         break;
-                    case "12":
+                    case "13":
                         try
                         {
                             Gallery galleryToUpdate = new Gallery();
@@ -624,7 +653,7 @@ namespace VirtualArtGallery.main
                             Console.WriteLine();
                         }
                         break;
-                    case "13":
+                    case "14":
                         try
                         {
                             Console.WriteLine();
@@ -661,7 +690,7 @@ namespace VirtualArtGallery.main
                             Console.WriteLine();
                         }
                         break;
-                    case "14":
+                    case "15":
                         try
                         {
                             Console.WriteLine();
@@ -699,7 +728,7 @@ namespace VirtualArtGallery.main
                             Console.WriteLine();
                         }
                         break;
-                    case "15":
+                    case "16":
                         try
                         {
                             Console.WriteLine();
@@ -746,7 +775,7 @@ namespace VirtualArtGallery.main
                             Console.WriteLine();
                         }
                         break;
-                    case "16":
+                    case "17":
                         Users userProfile = service.GetUserProfile(user.UserName);
 
                         if (userProfile != null)
@@ -767,7 +796,7 @@ namespace VirtualArtGallery.main
                             Console.ResetColor();
                         }
                         break;
-                    case "17":
+                    case "18":
                         if (service.Logout())
                         {
                             Console.ForegroundColor = ConsoleColor.Green;

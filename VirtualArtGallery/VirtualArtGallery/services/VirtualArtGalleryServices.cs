@@ -86,7 +86,6 @@ namespace VirtualArtGallery.services
             {
                 try
                 {
-
                     using (SqlConnection connection = DBConnUtil.GetConnection())
                     {
                         connection.Open();
@@ -121,7 +120,7 @@ namespace VirtualArtGallery.services
             else
             {
                 return false;
-            }            
+            }
         }
 
         public Users GetUsersDetails()
@@ -239,95 +238,7 @@ namespace VirtualArtGallery.services
                 return false;
             }
         }
-        //public bool Register()
-        //{
-        //    Users newUser;
-        //    try
-        //    {
-        //        Console.WriteLine("User Registration:");
-
-        //        // Get user details
-        //        Console.Write("Username: ");
-        //        string username = Console.ReadLine();
-
-        //        Console.Write("Password: ");
-        //        string password = Console.ReadLine();
-
-        //        Console.Write("Email: ");
-        //        string email = Console.ReadLine();
-
-        //        Console.Write("First Name: ");
-        //        string firstName = Console.ReadLine();
-
-        //        Console.Write("Last Name: ");
-        //        string lastName = Console.ReadLine();
-
-        //        Console.Write("Date of Birth (yyyy-MM-dd): ");
-        //        DateTime dateOfBirth;
-        //        while (!DateTime.TryParse(Console.ReadLine(), out dateOfBirth))
-        //        {
-        //            Console.WriteLine("Invalid date format. Please enter again (yyyy-MM-dd): ");
-        //        }
-
-
-        //        newUser = new Users
-        //        {
-        //            UserName = username,
-        //            Password = password,
-        //            Email = email,
-        //            FirstName = firstName,
-        //            LastName = lastName,
-        //            DateOfBirth = dateOfBirth
-        //        };
-
-
-        //    }
-        //    catch (FormatException ex)
-        //    {
-        //        Console.WriteLine($"Invalid input format: {ex.Message}");
-        //        return false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        Console.WriteLine($"An error occurred during registration: {ex.Message}");
-        //        return false;
-        //    }
-        //    try
-        //    {
-        //        using (SqlConnection connection = new SqlConnection(connectionString))
-        //        {
-        //            connection.Open();
-
-
-        //            string insertQuery = "INSERT INTO Users (Username, Password, Email, FirstName, LastName, DateOfBirth) " +
-        //                                 "VALUES (@Username, @Password, @Email, @FirstName, @LastName, @DateOfBirth)";
-        //            using (SqlCommand command = new SqlCommand(insertQuery, connection))
-        //            {
-
-        //                command.Parameters.AddWithValue("@Username", newUser.UserName);
-        //                command.Parameters.AddWithValue("@Password", newUser.Password);
-        //                command.Parameters.AddWithValue("@Email", newUser.Email);
-        //                command.Parameters.AddWithValue("@FirstName", newUser.FirstName);
-        //                command.Parameters.AddWithValue("@LastName", newUser.LastName);
-        //                command.Parameters.AddWithValue("@DateOfBirth", newUser.DateOfBirth);
-
-
-        //                int rowsAffected = command.ExecuteNonQuery();
-
-
-
-        //                return rowsAffected > 0;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"An error occurred during database operation: {ex.Message}");
-        //        return false;
-        //    }
-        //}
-
+        
         public Users GetUserProfile(string username)
         {     
             try

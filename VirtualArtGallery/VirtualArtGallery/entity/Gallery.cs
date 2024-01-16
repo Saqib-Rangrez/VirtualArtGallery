@@ -9,8 +9,7 @@ namespace VirtualArtGallery.entity
 {
     public class Gallery
     {
-        //Properties
-        public int GalleryId { get; set; }    //Primary Key
+        public int GalleryId { get; set; }  
         public string Name { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
@@ -18,10 +17,8 @@ namespace VirtualArtGallery.entity
         public string OpeningHours { get; set; }
 
 
-        //Default Constructor
         public Gallery() { }
 
-        //Parameterized Constructor
         public Gallery( string name, string description,
                         string location, int curatorID, string openingHours, [Optional] int galleryId)
         {
@@ -35,7 +32,7 @@ namespace VirtualArtGallery.entity
 
         public override string ToString()
         {
-            return $"GalleryId \t:\t{GalleryId}\nName \t\t:\t{Name}\nDescription \t:\t{Description}\nLocation \t:\t{Location}\ncuratorID \t:\t{CuratorID}\nOpeningHours \t:\t{OpeningHours}";
+            return $"Gallery ID \t:\t{GalleryId}\nName \t\t:\t{Name}\nDescription \t:\t{Description}\nLocation \t:\t{Location}\nCurator ID \t:\t{CuratorID}\nOpening Hours \t:\t{OpeningHours}";
         }
 
     }

@@ -344,7 +344,50 @@ namespace VirtualArtGallery.dao
             }
         }
 
+        public List<Artist> GetAllArtist()
+        {
+            try
+            {
+                List<Artist> artistList = new List<Artist>();
 
+                SqlCommand cmd = new SqlCommand();
+                SqlConnection connection = DBConnUtil.GetConnection();
+                cmd.Connection = connection;
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "SELECT * FROM Artist";
+
+                connection.Open();
+
+                using (SqlDataReader data = cmd.ExecuteReader())
+                {
+                    while (data.Read())
+                    {
+                        artistList.Add(new Artist(
+                             Convert.ToInt32(data["ArtistID"]),
+                             data["Name"].ToString(),
+                             data["Biography"].ToString(),
+                             Convert.ToDateTime(data["BirthDate"]),
+                             data["Nationality"].ToString(),
+                             data["Website"].ToString(),
+                             data["ContactInformation"].ToString()
+                            ));
+                    }
+                }
+                connection.Close();
+
+                if (artistList.Count > 0)
+                {
+                    return artistList;
+                }
+                else
+                { return null; }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while getting Artist details: {ex.Message}");
+                return null;
+            }
+        }
 
         //User Favorites Methods
         public List<Artwork> GetUserFavoriteArtworks(int userId)

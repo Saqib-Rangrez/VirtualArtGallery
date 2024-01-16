@@ -6,7 +6,7 @@ using VirtualArtGallery.entity;
 using VirtualArtGallery.dao;
 
 
-namespace VirtualArtGalleryUnitTest
+namespace VirtualArtGalleryTest
 {
     [TestFixture]
     internal class ArtworkServiceTests
