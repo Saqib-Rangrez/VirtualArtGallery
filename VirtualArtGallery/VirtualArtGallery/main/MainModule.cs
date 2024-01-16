@@ -595,23 +595,26 @@ namespace VirtualArtGallery.main
                         Gallery galleryToAdd = new Gallery();
                         galleryToAdd = daoServices.GalleryDetails();
                         Console.WriteLine();
-                        bool addGalleryStatus = daoServices.AddGallery(galleryToAdd);
-                        if (addGalleryStatus)
+                        if(galleryToAdd != null)
                         {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("╔══════════════════════════════╗");
-                            Console.WriteLine("   Gallery Added Successfully   ");
-                            Console.WriteLine("╚══════════════════════════════╝");
-                            Console.ResetColor();
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("╔═════════════════════════════════════════╗");
-                            Console.WriteLine("      Failed to add Gallery! Try again     ");
-                            Console.WriteLine("╚═════════════════════════════════════════╝");
-                            Console.ResetColor();
-                        }
+                            bool addGalleryStatus = daoServices.AddGallery(galleryToAdd);
+                            if (addGalleryStatus)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine("╔══════════════════════════════╗");
+                                Console.WriteLine("   Gallery Added Successfully   ");
+                                Console.WriteLine("╚══════════════════════════════╝");
+                                Console.ResetColor();
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("╔═════════════════════════════════════════╗");
+                                Console.WriteLine("      Failed to add Gallery! Try again     ");
+                                Console.WriteLine("╚═════════════════════════════════════════╝");
+                                Console.ResetColor();
+                            }
+                        }                        
                         break;
                     case "13":
                         try

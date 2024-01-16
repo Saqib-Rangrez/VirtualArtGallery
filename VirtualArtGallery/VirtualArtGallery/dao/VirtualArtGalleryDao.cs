@@ -684,7 +684,7 @@ namespace VirtualArtGallery.dao
                     connection.Open();
 
                     SqlDataReader reader = cmd.ExecuteReader();
-                    if(reader.Read())
+                    if(reader.HasRows)
                     {
                         reader.Close();
                         connection.Close();
@@ -922,6 +922,18 @@ namespace VirtualArtGallery.dao
             try
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("Enter Artist ID:");
+                Console.ResetColor();
+                int artistID = int.Parse(Console.ReadLine());
+
+                bool isAvailable = CheckArtistID(artistID);
+
+                if (!isAvailable)
+                {
+                    throw new Exception("Artist ID not Found");
+                }
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("\nEnter Title:");
                 Console.ResetColor();
                 string title = Console.ReadLine();
@@ -946,10 +958,7 @@ namespace VirtualArtGallery.dao
                 Console.ResetColor();
                 string imageURL = Console.ReadLine();
 
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.Write("Enter Artist ID:");
-                Console.ResetColor();
-                int artistID = int.Parse(Console.ReadLine());
+                
 
                 return new Artwork(title, description, creationDate, medium, imageURL, artistID);
             }
@@ -957,7 +966,7 @@ namespace VirtualArtGallery.dao
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine($"    Error : {ex.Message}  ");
+                Console.WriteLine($"                Error : {ex.Message}  ");
                 Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
                 Console.ResetColor();
                 return null;
@@ -968,6 +977,18 @@ namespace VirtualArtGallery.dao
         {
             try
             {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("Enter Curator Id:");
+                Console.ResetColor();
+                int curatorId = Convert.ToInt32(Console.ReadLine());
+
+                bool isAvailable = CheckArtistID(curatorId);
+
+                if (!isAvailable)
+                {
+                    throw new Exception("Artist ID not Found");
+                }
+
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("\nEnter Gallry Name:");
 
@@ -983,12 +1004,7 @@ namespace VirtualArtGallery.dao
                 Console.Write("Enter Location:");
                 Console.ResetColor();
                 string location = Console.ReadLine();
-
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.Write("Enter Curator Id:");
-                Console.ResetColor();
-                int curatorId = Convert.ToInt32(Console.ReadLine());
-
+                                
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.Write("Enter Opening Hours as TTAM to TTPM:");
                 Console.ResetColor();
@@ -1000,11 +1016,45 @@ namespace VirtualArtGallery.dao
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine($"     {ex.Message}  ");
+                Console.WriteLine($"                 {ex.Message}  ");
                 Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
                 Console.ResetColor();
                 return null;
             }
         }
+
+        public bool CheckArtistID(int artistID)
+        {
+            SqlConnection connection = DBConnUtil.GetConnection();
+            try
+            {
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = connection;
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "SELECT * FROM Artist WHERE ArtistID = @ID";
+                cmd.Parameters.AddWithValue("@ID", artistID);
+                connection.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
     }
 }
