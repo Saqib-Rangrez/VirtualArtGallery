@@ -8,6 +8,7 @@ using VirtualArtGallery.entity;
 
 namespace VirtualArtGalleryTest
 {
+    [TestFixture]
     internal class GalleryServiceTests
     {
         private VirtualArtGalleryDao _VirtualArtGalleryDao;
