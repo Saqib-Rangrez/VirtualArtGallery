@@ -347,6 +347,7 @@ namespace VirtualArtGallery.main
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.WriteLine("---------------------------------------------------------------------------------------");
                             Console.ResetColor();
+
                             foreach (Artwork artwork in artwroks)
                             {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -356,6 +357,7 @@ namespace VirtualArtGallery.main
                                 Console.WriteLine("--------------------------------------------------------------------------------------");
                                 Console.ResetColor();
                             }
+
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("\n╚═══════════════════════════════════════════════════════════════════════════════════════╝");
                             Console.ResetColor();
@@ -376,6 +378,7 @@ namespace VirtualArtGallery.main
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.WriteLine("-------------------------------------------------------------------------");
                             Console.ResetColor();
+
                             foreach (Artist artist in artistkList)
                             {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -385,6 +388,7 @@ namespace VirtualArtGallery.main
                                 Console.WriteLine("-----------------------------------------------------------------------");
                                 Console.ResetColor();
                             }
+
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("\n╚════════════════════════════════════════════════════════════════════════╝");
                             Console.ResetColor();
@@ -405,6 +409,7 @@ namespace VirtualArtGallery.main
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.WriteLine("-------------------------------------------------------------------------");
                             Console.ResetColor();
+
                             foreach (Artwork artwork in artworkList)
                             {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -414,6 +419,7 @@ namespace VirtualArtGallery.main
                                 Console.WriteLine("-----------------------------------------------------------------------");
                                 Console.ResetColor();
                             }
+
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("\n╚════════════════════════════════════════════════════════════════════════╝");
                             Console.ResetColor();
@@ -434,6 +440,7 @@ namespace VirtualArtGallery.main
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.WriteLine("-----------------------------------------------------------------------------");
                             Console.ResetColor();
+
                             foreach (Gallery gallery in galleryList)
                             {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -443,6 +450,7 @@ namespace VirtualArtGallery.main
                                 Console.WriteLine("----------------------------------------------------------------------------");
                                 Console.ResetColor();
                             }
+
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("\n╚═════════════════════════════════════════════════════════════════════════════╝");
                             Console.ResetColor();
@@ -472,6 +480,7 @@ namespace VirtualArtGallery.main
                                 Console.ForegroundColor = ConsoleColor.Cyan;
                                 Console.WriteLine("-----------------------------------------------------------------------------------------------------");
                                 Console.ResetColor();
+
                                 foreach (Artwork artwork in artworks)
                                 {
                                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -481,6 +490,7 @@ namespace VirtualArtGallery.main
                                     Console.WriteLine("---------------------------------------------------------------------------------------------------");
                                     Console.ResetColor();
                                 }
+
                                 Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.WriteLine("\n╚═════════════════════════════════════════════════════════════════════════════════════════════════════╝");
                                 Console.ResetColor();
@@ -828,6 +838,5 @@ namespace VirtualArtGallery.main
                 }
             }
         }
-
     }
 }

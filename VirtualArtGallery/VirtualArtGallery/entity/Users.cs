@@ -17,7 +17,6 @@ namespace VirtualArtGallery.entity
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ProfilePicture { get; set; }
-        //public List<FavoriteArtwork> FavoriteArtworks { get; set; }    
 
 
         public Users() { }

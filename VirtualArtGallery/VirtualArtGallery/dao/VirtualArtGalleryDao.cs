@@ -23,6 +23,8 @@ namespace VirtualArtGallery.dao
             cmd = new SqlCommand();
         }
 
+
+
         //Artwork Management Methods
         public bool AddArtwork(Artwork artwork)
         {
@@ -402,12 +404,10 @@ namespace VirtualArtGallery.dao
                     cmd.Connection = connection;
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    if (reader.HasRows)
                     {
                         reader.Close();
-                        connection.Close();
-                        connection.Open();
-                        using(reader = cmd.ExecuteReader())
+                        using (reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
@@ -501,9 +501,9 @@ namespace VirtualArtGallery.dao
             catch (ArtWorkNotFoundException anf)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("╔══════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine($"       {anf.Message}            ");
-                Console.WriteLine("╚══════════════════════════════════════════════════════════════════════╝");
+                Console.WriteLine("╔═══════════════════════════════════════════════════════╗");
+                Console.WriteLine($"        {anf.Message}            ");
+                Console.WriteLine("╚═══════════════════════════════════════════════════════╝");
                 Console.ResetColor();
                 return false;
             }
@@ -568,9 +568,9 @@ namespace VirtualArtGallery.dao
             catch (ArtWorkNotFoundException anf)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("╔═══════════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine($"       {anf.Message}            ");
-                Console.WriteLine("╚═══════════════════════════════════════════════════════════════════════════╝");
+                Console.WriteLine("╔══════════════════════════════════════════════════════════╗");
+                Console.WriteLine($"         {anf.Message}            ");
+                Console.WriteLine("╚══════════════════════════════════════════════════════════╝");
                 Console.ResetColor();
                 return false;
             }
@@ -652,9 +652,9 @@ namespace VirtualArtGallery.dao
                     cmd.Connection = connection;
                     connection.Open();
 
-                    int count = cmd.ExecuteNonQuery();
+                    int addGalleryStatus = cmd.ExecuteNonQuery();
 
-                    return count > 0;
+                    return addGalleryStatus > 0;
                 }
             }catch (Exception ex)
             {
@@ -701,9 +701,9 @@ namespace VirtualArtGallery.dao
                         cmd.Connection = connection;
                         connection.Open();
 
-                        int count = cmd.ExecuteNonQuery();
+                        int updateGalleryStatus = cmd.ExecuteNonQuery();
 
-                        return count > 0;
+                        return updateGalleryStatus > 0;
                     }
                     else
                     {
@@ -860,12 +860,10 @@ namespace VirtualArtGallery.dao
                     cmd.Connection = connection;
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();                    
-                    if(reader.Read())
+                    if(reader.HasRows)
                     {
-                        reader.Close();
-                        connection.Close();
-                        connection.Open();
-                        using(reader = cmd.ExecuteReader())
+                        reader.Close();                        
+                        using (reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
@@ -922,7 +920,7 @@ namespace VirtualArtGallery.dao
             try
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.Write("Enter Artist ID:");
+                Console.Write("\nEnter Artist ID:");
                 Console.ResetColor();
                 int artistID = int.Parse(Console.ReadLine());
 
@@ -934,7 +932,7 @@ namespace VirtualArtGallery.dao
                 }
 
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.Write("\nEnter Title:");
+                Console.Write("Enter Title:");
                 Console.ResetColor();
                 string title = Console.ReadLine();
 
@@ -966,7 +964,7 @@ namespace VirtualArtGallery.dao
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine($"                Error : {ex.Message}  ");
+                Console.WriteLine($"                      {ex.Message}  ");
                 Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
                 Console.ResetColor();
                 return null;
@@ -978,7 +976,7 @@ namespace VirtualArtGallery.dao
             try
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.Write("Enter Curator Id:");
+                Console.Write("\nEnter Curator Id:");
                 Console.ResetColor();
                 int curatorId = Convert.ToInt32(Console.ReadLine());
 
@@ -990,7 +988,7 @@ namespace VirtualArtGallery.dao
                 }
 
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.Write("\nEnter Gallry Name:");
+                Console.Write("Enter Gallry Name:");
 
                 Console.ResetColor();
                 string name = Console.ReadLine();                
@@ -1016,7 +1014,7 @@ namespace VirtualArtGallery.dao
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("╔════════════════════════════════════════════════════════════════════╗");
-                Console.WriteLine($"                 {ex.Message}  ");
+                Console.WriteLine($"                    {ex.Message}  ");
                 Console.WriteLine("╚════════════════════════════════════════════════════════════════════╝");
                 Console.ResetColor();
                 return null;
@@ -1025,35 +1023,31 @@ namespace VirtualArtGallery.dao
 
         public bool CheckArtistID(int artistID)
         {
-            SqlConnection connection = DBConnUtil.GetConnection();
             try
             {
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = connection;
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Artist WHERE ArtistID = @ID";
-                cmd.Parameters.AddWithValue("@ID", artistID);
-                connection.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (SqlConnection connection = DBConnUtil.GetConnection())
                 {
-                    if (reader.Read())
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = "SELECT * FROM Artist WHERE ArtistID = @ID";
+                    cmd.Parameters.AddWithValue("@ID", artistID);
+                    connection.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        return true;
+                        if (reader.Read())
+                        {
+                            return true;
+                        }
                     }
-                }
-
-                return false;
+                    return false;
+                }                
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;
-            }
-            finally
-            {
-                connection.Close();
-            }
+            }            
         }
 
     }
